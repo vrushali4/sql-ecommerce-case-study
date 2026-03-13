@@ -2,31 +2,37 @@
 
 ## 📌 Project Overview
 
-This project analyzes the **Brazilian E-Commerce Public Dataset by Olist** using **PostgreSQL** to understand marketplace performance, customer behavior, and operational efficiency.
+This project analyzes the **Brazilian E-Commerce Public Dataset by Olist** using **PostgreSQL** to evaluate marketplace performance, customer behavior, and operational efficiency.
 
-The goal was to simulate a **real business analysis scenario**, answering leadership questions such as:
+The goal was to simulate a **real business analysis scenario**, answering questions such as:
 
-* Is the platform growing?
-* Which product categories drive revenue?
-* Are customers returning or buying only once?
-* Are delivery delays affecting customer satisfaction?
+* Is the platform growing sustainably?
+* Which product categories drive the most revenue?
+* Are customers returning to make repeat purchases?
+* Do delivery delays affect customer satisfaction?
 
-The project builds a **clean analytical model**, performs **data validation**, and derives **business insights** from ~96K orders.
+The project builds a **clean analytical model**, performs **data validation**, and generates **business insights from ~96K orders**.
+
+For detailed technical documentation:
+
+* 📊 Data Model → [`docs/data_model.md`](docs/data_model.md)
+* ⚙️ Analysis Process → [`docs/analysis_process.md`](docs/analysis_process.md)
+* 📈 Business Insights → [`docs/business_insights.md`](docs/business_insights.md)
 
 ---
 
 # 🏢 Business Context
 
-An e-commerce marketplace wants to understand its operational and financial health.
+An e-commerce marketplace wants to understand its **financial and operational performance**.
 
-Leadership needs answers to questions like:
+Leadership needs answers to key questions:
 
 * Are we generating sustainable revenue growth?
-* Which categories contribute most to revenue?
+* Which product categories contribute the most revenue?
 * Do customers return to purchase again?
 * Are delivery issues impacting customer satisfaction?
 
-The analysis focuses on **revenue, customer behavior, and operational performance**.
+This project approaches the dataset from a **data analyst perspective**, transforming raw transactional data into **actionable business insights**.
 
 ---
 
@@ -37,15 +43,29 @@ The analysis focuses on **revenue, customer behavior, and operational performanc
 Kaggle:
 Brazilian E-Commerce Public Dataset by Olist
 
-The dataset contains **100k+ orders from 2016–2018** across multiple Brazilian marketplaces.
+Dataset includes:
+
+* 100K+ orders
+* Customer information
+* Product and seller details
+* Payment transactions
+* Customer reviews
+* Delivery timestamps
+* Geolocation data
+
+Time period:
+
+```
+September 2016 → October 2018
+```
 
 ---
 
 # 🧰 Tools Used
 
-* **PostgreSQL** – Data storage and analysis
-* **SQL** – Data transformation and business queries
-* **GitHub** – Project version control
+* **PostgreSQL** → Data storage and querying
+* **SQL** → Data transformation and business analysis
+* **GitHub** → Version control and documentation
 
 ---
 
@@ -53,219 +73,73 @@ The dataset contains **100k+ orders from 2016–2018** across multiple Brazilian
 
 ```
 sql-ecommerce-case-study
-
+│
+├── README.md
+│
 ├── data
-│   └── CSV files
-
+│   └── raw_csv_files
+│
 ├── sql
 │   ├── 00_data_preparation.sql
 │   ├── 01_data_exploration.sql
 │   ├── 02_business_queries.sql
 │   ├── 03_advanced_analysis.sql
 │   └── 04_executive_summary.sql
-|
-└── README.md
+│
+├── docs
+│   ├── data_model.md
+│   ├── analysis_process.md
+│   └── business_insights.md
+│
+└── images
 ```
 
----
-
-# ⚙️ Data Preparation
-
-Steps performed before analysis:
-
-1. Downloaded dataset CSV files from Kaggle
-2. Created PostgreSQL database `e_commerce`
-3. Created tables manually
-4. Imported CSV data into tables
-5. Validated **orphan records before applying foreign keys**
-6. Added **foreign key constraints** for referential integrity
-
-Example workflow:
-
-```
-Right Click Table → Import/Export Data
-Choose CSV
-Header = YES
-Delimiter = ,
-Encoding = UTF8
-```
+SQL files contain the full analytical workflow from **data preparation to business insights**.
 
 ---
 
-# 🧠 Data Model Understanding
+# 📊 Key Metrics Snapshot
 
-### Table Grain
-
-| Table          | Grain                          |
-| -------------- | ------------------------------ |
-| customers      | 1 row per customer             |
-| orders         | 1 row per order                |
-| order_items    | 1 row per item within an order |
-| order_payments | 1 row per payment transaction  |
-| order_reviews  | 1 row per order review         |
-| products       | 1 row per product              |
-| sellers        | 1 row per seller               |
-| geolocation    | 1 row per location             |
-
----
-
-### Key Relationships
-
-```
-customers → orders → order_items
-                       ↓
-                products / sellers
-
-orders → order_reviews
-orders → order_payments
-```
-
----
-
-# 📐 Key Business Metrics
-
-| Metric      | Definition                         |
-| ----------- | ---------------------------------- |
-| Revenue     | SUM(price + freight_value)         |
-| Orders      | COUNT(DISTINCT order_id)           |
-| Customers   | COUNT(DISTINCT customer_unique_id) |
-| AOV         | Revenue / Orders                   |
-| Repeat Rate | Repeat Customers / Total Customers |
-
----
-
-# 🔎 Analysis Performed
-
-## 1️⃣ Revenue Growth Analysis
-
-Revenue by year:
-
-| Year | Revenue |
-| ---- | ------- |
-| 2016 | 46K     |
-| 2017 | 6.92M   |
-| 2018 | 8.45M   |
-
-Revenue grew **~22% from 2017 to 2018**, indicating strong marketplace expansion.
-
-Note:
-2016 is a **partial launch year**, so growth comparisons start from 2017.
-
----
-
-## 2️⃣ Category Revenue Analysis
-
-Top categories by revenue share:
-
-| Category                | Revenue Share |
-| ----------------------- | ------------- |
-| Beauty & Health         | 9.16%         |
-| Watches & Gifts         | 8.20%         |
-| Bed Bath Table          | 7.95%         |
-| Sports & Leisure        | 7.25%         |
-| Electronics Accessories | 6.70%         |
-
-The **top 5 categories contribute ~39% of total revenue**, indicating diversified demand.
-
----
-
-## 3️⃣ Customer Behavior Analysis
-
-Customer metrics:
-
-| Metric           | Value  |
-| ---------------- | ------ |
-| Total Customers  | 93,358 |
-| Repeat Customers | 2,801  |
-| Repeat Rate      | 3%     |
-
-Key insight:
-
-Repeat customers spend **almost twice as much per person** compared to single-order customers.
-
-| Customer Type | Avg Revenue |
-| ------------- | ----------- |
-| Single Order  | 160         |
-| Repeat        | 308         |
-
-This suggests **retention improvements could significantly increase revenue**.
-
----
-
-## 4️⃣ Delivery Performance Analysis
-
-Delivery performance was analyzed against review scores.
-
-| Delivery Status | Avg Review |
-| --------------- | ---------- |
-| On Time         | 4.21       |
-| Late            | 2.55       |
-
-Late deliveries cause a **significant drop in customer satisfaction**, indicating operational impact on customer experience.
-
-Late delivery rate:
-
-```
-8.11% of total orders
-```
-
----
-
-# 🧪 Data Validation & Quality Checks
-
-Before finalizing metrics, several validation steps were performed.
-
-### Revenue Validation
-
-Revenue calculated via:
-
-1. Fact table aggregation
-2. Manual joins
-
-A mismatch revealed **row duplication due to many-to-one joins**.
-
-### Fix Applied
-
-Reviews were **aggregated before joining**, ensuring correct grain.
-
-This prevented inflated revenue calculations.
-
----
-
-# 📊 Final Executive Metrics
-
-| Metric           | Value  |
-| ---------------- | ------ |
-| Total Revenue    | 15.4M  |
-| Total Orders     | 96,478 |
-| Total Customers  | 93,358 |
-| Repeat Rate      | 3%     |
-| Late Deliveries  | 8.11%  |
-| Avg Review Score | 4.08   |
+| Metric               | Value  |
+| -------------------- | ------ |
+| Total Revenue        | 15.4M  |
+| Total Orders         | 96,478 |
+| Total Customers      | 93,358 |
+| Repeat Customers     | 2,801  |
+| Repeat Rate          | 3%     |
+| Late Deliveries      | 8.11%  |
+| Average Review Score | 4.08   |
 
 ---
 
 # 💡 Key Insights
 
-### 1️⃣ Strong Marketplace Growth
+### Marketplace Growth
 
-Revenue increased significantly between 2017 and 2018, showing strong expansion.
-
----
-
-### 2️⃣ Low Customer Retention
-
-Only **3% of customers return**.
-
-However, repeat customers spend **~2x more**, making retention a major opportunity.
+Revenue grew significantly between **2017 and 2018 (~22%)**, indicating strong platform expansion.
 
 ---
 
-### 3️⃣ Delivery Performance Impacts Satisfaction
+### Low Customer Retention
 
-Late deliveries correlate strongly with poor customer reviews.
+Only **3% of customers return for another purchase**.
 
-Improving delivery reliability could improve customer satisfaction and retention.
+However, repeat customers spend **almost twice as much per person**, suggesting that improving retention could significantly increase revenue.
+
+---
+
+### Delivery Performance Impacts Satisfaction
+
+Late deliveries represent **8.11% of orders**.
+
+Customer review comparison:
+
+| Delivery Status | Avg Review Score |
+| --------------- | ---------------- |
+| On Time         | 4.21             |
+| Late            | 2.55             |
+
+Late deliveries correlate strongly with **lower customer satisfaction**.
 
 ---
 
@@ -273,39 +147,38 @@ Improving delivery reliability could improve customer satisfaction and retention
 
 ### Improve Customer Retention
 
+Possible initiatives:
+
 * Loyalty programs
 * Personalized recommendations
-* Targeted email campaigns
+* Targeted marketing campaigns
 * Incentives for repeat purchases
+
+Even small improvements in repeat rate could significantly increase **customer lifetime value**.
 
 ---
 
 ### Improve Delivery Reliability
 
-* Monitor seller shipping performance
-* Improve delivery time estimation
-* Optimize logistics partnerships
+Operational improvements may include:
+
+* Monitoring seller shipping performance
+* Improving delivery time estimation
+* Optimizing logistics partnerships
+
+Reducing delivery delays could improve **customer satisfaction and retention**.
 
 ---
 
 ### Invest in High-Growth Categories
 
-Focus on expanding fast-growing categories like:
+Top-performing categories include:
 
 * Beauty & Health
 * Watches & Gifts
+* Bed Bath Table
 
----
-
-# 🎯 Project Outcome
-
-This project demonstrates how **SQL can be used to transform raw marketplace data into business insights**, covering:
-
-* Data modeling
-* Data validation
-* KPI design
-* Business analysis
-* Strategic recommendations
+Expanding these categories could further accelerate marketplace growth.
 
 ---
 
@@ -315,4 +188,8 @@ This project demonstrates how **SQL can be used to transform raw marketplace dat
 Data Analyst
 
 📍 Pune, India
-🔗 LinkedIn: [https://www.linkedin.com/in/vrushali-chilka/](https://www.linkedin.com/in/vrushali-chilka/)
+
+🔗 LinkedIn
+[https://www.linkedin.com/in/vrushali-chilka/](https://www.linkedin.com/in/vrushali-chilka/)
+
+---
