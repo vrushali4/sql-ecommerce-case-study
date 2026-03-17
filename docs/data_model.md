@@ -44,6 +44,8 @@ Explanation:
 * Each item belongs to a **product** and is fulfilled by a **seller**
 * Orders may have **reviews and payment records**
 
+🧩 ER Diagram : [`images/Er_diagram.png`](docs/data_model.md)
+
 ---
 
 # Analytical Join Logic
