@@ -44,7 +44,7 @@ Explanation:
 * Each item belongs to a **product** and is fulfilled by a **seller**
 * Orders may have **reviews and payment records**
 
-🧩 ER Diagram : [`ER_diagram`](images/ER_diagram.png)
+🧩 ER Diagram : [`ER_diagram`](../images/ER_diagram.png)
 
 ---
 
